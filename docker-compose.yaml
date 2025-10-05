@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  fastapi-job-manager:
+    build:
+      context: .
+      dockerfile: fastapi-job-manager.Dockerfile
+    container_name: fastapi-job-manager
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+
+  worker-node-1:
+    build:
+      context: .
+      dockerfile: worker-node.Dockerfile
+    container_name: worker-node-1
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - WORKER_ID=worker-1
+
+  worker-node-2:
+    build:
+      context: .
+      dockerfile: worker-node.Dockerfile
+    container_name: worker-node-2
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - WORKER_ID=worker-2
