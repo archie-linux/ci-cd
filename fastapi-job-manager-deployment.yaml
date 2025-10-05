@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.35.0 (HEAD)
+  labels:
+    io.kompose.service: fastapi-job-manager
+  name: fastapi-job-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: fastapi-job-manager
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.35.0 (HEAD)
+      labels:
+        io.kompose.service: fastapi-job-manager
+    spec:
+      containers:
+        - env:
+            - name: RABBITMQ_HOST
+              value: rabbitmq
+          image: fastapi-job-manager
+          name: fastapi-job-manager
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+      restartPolicy: Always

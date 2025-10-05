@@ -6,7 +6,7 @@ DATA='{"command": "pytest -v"}'
 for i in {1..5}
 do
   echo "Submitting job #$i..."
-  curl -s -X POST "$URL" \
+  curl -X POST "$URL" \
        -H "Content-Type: application/json" \
        -d "$DATA" | jq .
   sleep 1  # Optional delay between requests
