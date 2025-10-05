@@ -6,14 +6,14 @@
 
 ### Testing the system
 
-- ./task_dispatcher.sh
+- ./task_dispatcher.sh "pytest -v"
 
 ### Check Logs
 
 - docker exec -it [worker-node-1|worker-node-2] bash
 - cat job_results.log
 
-https://github.com/user-attachments/assets/e8e6d010-5372-4026-93ff-17f271ad7a84
+### [Basic Setup Demo](https://github.com/user-attachments/assets/e8e6d010-5372-4026-93ff-17f271ad7a84)
 
 
 ### Minikube Deployment
@@ -78,7 +78,7 @@ https://github.com/user-attachments/assets/e8e6d010-5372-4026-93ff-17f271ad7a84
 
 11. Submit Jobs
 
-- ./task_dispatcher.sh
+- ./task_dispatcher.sh "pytest -v"
 
 12. Check Job Manager Logs
 
@@ -101,7 +101,7 @@ https://github.com/user-attachments/assets/e8e6d010-5372-4026-93ff-17f271ad7a84
 - kubectl delete deployment --all
 - kubectl delete hpa worker-node-hpa
 
-https://github.com/user-attachments/assets/b4c9c532-dac5-44e8-aced-bad0a247a9ce
+### [Minikube Deployment](https://github.com/user-attachments/assets/b4c9c532-dac5-44e8-aced-bad0a247a9ce)
 
 ### Horizontal Pod Autoscaler (HPA) Deployment
 
@@ -113,7 +113,7 @@ https://github.com/user-attachments/assets/b4c9c532-dac5-44e8-aced-bad0a247a9ce
 
 2. Run Stress Test
 
-- ./task_dispatcher_load.sh
+- ./task_dispatcher.sh "yes > /dev/null &"
 
 3. Monitor HPA with 5-second updates
 
@@ -126,7 +126,7 @@ https://github.com/user-attachments/assets/b4c9c532-dac5-44e8-aced-bad0a247a9ce
 - top
 - sudo killall yes # stops all yes processes
 
-5. Observe Scale-Down Events
+5. Inspect Scale-Down Events
 
 - watch -n 1 "kubectl describe hpa worker-node-hpa"
 
@@ -161,4 +161,4 @@ Events:
   Normal   SuccessfulRescale             6m38s                horizontal-pod-autoscaler  New size: 3; reason: All metrics below target
 </pre>
 
-https://github.com/user-attachments/assets/d998b547-025d-4dcf-a985-ea00aa595ae0
+### [HPA Demo](https://github.com/user-attachments/assets/d998b547-025d-4dcf-a985-ea00aa595ae0)
